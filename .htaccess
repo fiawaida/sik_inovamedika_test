@@ -1,0 +1,7 @@
+RewriteEngine on
+
+# jika sebuah direktori atau file ada, maka langsung gunakan ini
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# jika tidak ada, maka arahkan ke index.php
+RewriteRule . index.php
