@@ -9,13 +9,9 @@
 							</div>
 							<div class="row w3-res-tb">
 								<div class="col-sm-5 m-b-xs">
-									<select class="input-sm form-control w-sm inline v-middle">
-										<option value="0">Bulk action</option>
-										<option value="1">Delete selected</option>
-										<option value="2">Bulk edit</option>
-										<option value="3">Export</option>
-									</select>
-									<button class="btn btn-sm btn-default">Apply</button>
+									<a href="<?= Yii::app()->request->baseUrl; ?>/users/create" data-toggle="modal" class="btn btn-success"><i class="fa fa-plus-square"></i>
+										Tambah User Baru
+									</a>
 								</div>
 								<div class="col-sm-4">
 								</div>
@@ -36,7 +32,6 @@
 											<th>Username</th>
 											<th>Password</th>
 											<th>Status</th>
-											<th>Akses Token</th>
 											<th>Role</th>
 											<th style="width:30px;"></th>
 										</tr>
@@ -48,7 +43,6 @@
 												<td><?= $u['username']; ?></td>
 												<td><?= $u['password']; ?></span></td>
 												<td><?= $u['status']; ?></span></td>
-												<td><?= $u['accessToken']; ?></span></td>
 												<td><?= $u['role']; ?></span></td>
 
 												<td>

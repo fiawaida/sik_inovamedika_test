@@ -10,15 +10,9 @@
 
                     <div class="row w3-res-tb">
                         <div class="col-sm-5 m-b-xs">
-                            <select class="input-sm form-control w-sm inline v-middle">
-                                <option value="0">Bulk action</option>
-                                <option value="1">Delete selected</option>
-                                <option value="2">Bulk edit</option>
-                                <option value="3">Export</option>
-                            </select>
-                            <button class="btn btn-sm btn-default">Apply</button>
-                        </div>
-                        <div class="col-sm-4">
+                            <a href="<?= Yii::app()->request->baseUrl; ?>/users/InputPas" data-toggle="modal" class="btn btn-success"><i class="fa fa-plus-square"></i>
+                                Tambah Pasien Baru
+                            </a>
                         </div>
                         <div class="col-sm-3">
                             <div class="input-group">
@@ -33,15 +27,11 @@
                         <table class="table table-striped b-t b-light">
                             <thead>
                                 <tr>
-                                    <th>Id Pasien</th>
                                     <th>NIK</th>
                                     <th>Nama Pasien</th>
-                                    <th>Jenis Kelamin</th>
                                     <th>Tempat/Tanggal Lahir</th>
                                     <th>Nomor HP</th>
                                     <th>Alamat</th>
-                                    <th>Poliklinik</th>
-                                    <th>Jenis Layanan</th>
                                     <th>Kontak Darurat</th>
                                     <th style="width:30px;"></th>
                                 </tr>
@@ -49,19 +39,17 @@
                             <tbody>
                                 <?php foreach ($pasien as $p) : ?>
                                     <tr>
-                                        <td><?= $p['id_pasien'] ?></td>
                                         <td><?= $p['nik']; ?></td>
                                         <td><?= $p['nama_pasien']; ?></span></td>
-                                        <td><?= $p['jenis_kelamin']; ?></span></td>
                                         <td><?= $p['tempat_lahir']; ?> / <?= $p['tanggal_lahir'] ?></span></td>
                                         <td><?= $p['no_hp']; ?></span></td>
                                         <td><?= $p['alamat']; ?></span></td>
-                                        <td><?= $p['poliklinik']; ?></span></td>
-                                        <td><?= $p['jenis_layanan']; ?></span></td>
                                         <td><?= $p['kontak_lain']; ?></span></td>
-                                        <td>
-                                            <a href="#" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>
-                                        </td>
+                                        <!-- <td>
+                                            <a href="<?= Yii::app()->request->baseUrl; ?>/users/InputPas" data-toggle="modal" class="btn btn-success"><i class="fa fa-plus-square"></i>
+                                                Daftar
+                                            </a>
+                                        </td> -->
                                     </tr>
                                 <?php endforeach ?>
                             </tbody>
@@ -90,3 +78,38 @@
             </div>
         </section>
     </section>
+
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h4 class="modal-title">Form Tittle</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputFile">File input</label>
+                            <input type="file" id="exampleInputFile3">
+                            <p class="help-block">Example block-level help text here.</p>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox"> Check me out
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -37,7 +37,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <!--logo start-->
             <div class="brand">
                 <a href="index.html" class="logo">
-                    ADMIN
+                    <?php
+                    $user = Yii::app()->user->getState('role');
+                    if ($user == "Admin") {
+                        echo "Admin";
+                    } else if ($user == "Perawat") {
+                        echo "Perawat";
+                    } else if ($user == "Dokter") {
+                        echo "Dokter";
+                    }
+                    ?>
                 </a>
                 <div class="sidebar-toggle-box">
                     <div class="fa fa-bars"></div>
@@ -232,7 +241,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <img alt="" src="images/2.png">
-                            <span class="username">John Doe</span>
+                            <span class="username">vv</span>
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
@@ -259,30 +268,67 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <span>Dashboard</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="<?= Yii::app()->request->baseUrl; ?>/users">
-                                <i class="fa fa-th"></i>
-                                <span>Data User </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= Yii::app()->request->baseUrl; ?>/users/DPasien">
-                                <i class="fa fa-th"></i>
-                                <span>Data Pasien </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= Yii::app()->request->baseUrl; ?>/users/DObat">
-                                <i class="fa fa-th"></i>
-                                <span>Data Obat </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= Yii::app()->request->baseUrl; ?>/users/DWilayah">
-                                <i class="fa fa-th"></i>
-                                <span>Data Wilayah </span>
-                            </a>
-                        </li>
+                        <?php
+                        $user = Yii::app()->user->getState('role');
+                        if ($user == "Admin") {
+                        ?>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/users">
+                                    <i class="fa fa-th"></i>
+                                    <span>Data User </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/users/DPasien">
+                                    <i class="fa fa-th"></i>
+                                    <span>Data Pasien </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/users/DObat">
+                                    <i class="fa fa-th"></i>
+                                    <span>Data Obat </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/users/DWilayah">
+                                    <i class="fa fa-th"></i>
+                                    <span>Data Wilayah </span>
+                                </a>
+                            </li>
+                        <?php } ?>
+                        <?php
+                        $user = Yii::app()->user->getState('role');
+                        if ($user == "Perawat") {
+                        ?>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/users/DaftarPasien">
+                                    <i class="fa fa-th"></i>
+                                    <span>Pendaftaran</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/users/DPasien">
+                                    <i class="fa fa-th"></i>
+                                    <span>Data Pasien </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/users/DaftarKasir">
+                                    <i class="fa fa-th"></i>
+                                    <span>Kasir </span>
+                                </a>
+                            </li>
+                        <?php } else 
+                        if ($user == "Dokter") {
+                        ?>
+                            <li>
+                                <a href="<?= Yii::app()->request->baseUrl; ?>/Dokter">
+                                    <i class="fa fa-th"></i>
+                                    <span>Tindakan Pasien</span>
+                                </a>
+                            </li>
+                        <?php } ?>
                         <li>
                             <a href="<?= Yii::app()->request->baseUrl; ?>/users/Logout">
                                 <i class="fa fa-user"></i>

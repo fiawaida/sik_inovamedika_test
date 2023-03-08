@@ -44,9 +44,9 @@
                                 <?php foreach ($modal as $o) : ?>
                                     <tr>
                                         <td><?= $o['id_obat'] ?></td>
-                                        <td><?= $o['name']; ?></td>
-                                        <td><?= $o['harga']; ?></span></td>
-                                        <td><?= $o['description']; ?></span></td>
+                                        <td><?= $o['nama_obat']; ?></td>
+                                        <td><?= $o['harga_obat']; ?></span></td>
+                                        <td><?= $o['kategori']; ?></span></td>
                                         <td>
                                             <a href="#" class="active" ui-toggle-class=""><i class="fa fa-check text-success text-active"></i><i class="fa fa-times text-danger text"></i></a>
                                         </td>

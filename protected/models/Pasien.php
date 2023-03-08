@@ -40,32 +40,30 @@ class Pasien extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('nik, nama_pasien, tempat_lahir, tanggal_lahir, no_hp, alamat, kontak_lain, poliklinik, id_dokter, jenis_layanan', 'required'),
-			array('id_dokter', 'numerical', 'integerOnly' => true),
+			array('nik, nama_pasien, tempat_lahir, tanggal_lahir, no_hp, alamat, kontak_lain', 'required'),
+			// array('id_dokter', 'numerical', 'integerOnly' => true),
 			array('nik', 'length', 'max' => 17),
 			array('nama_pasien', 'length', 'max' => 255),
 			array('jenis_kelamin', 'length', 'max' => 1),
 			array('tempat_lahir', 'length', 'max' => 100),
 			array('no_hp, kontak_lain', 'length', 'max' => 13),
-			array('poliklinik, jenis_layanan', 'length', 'max' => 50),
-			array('created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_pasien, nik, nama_pasien, jenis_kelamin, tempat_lahir, tanggal_lahir, no_hp, alamat, kontak_lain, poliklinik, id_dokter, jenis_layanan, created_at, updated_at', 'safe', 'on' => 'search'),
+			array('id_pasien, nik, nama_pasien, jenis_kelamin, tempat_lahir, tanggal_lahir, no_hp, alamat, kontak_lain', 'safe', 'on' => 'search'),
 		);
 	}
 
 	/**
 	 * @return array relational rules.
 	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'idDokter' => array(self::BELONGS_TO, 'TblPegawai', 'id_dokter'),
-		);
-	}
+	// public function relations()
+	// {
+	// 	// NOTE: you may need to adjust the relation name and the related
+	// 	// class name for the relations automatically generated below.
+	// 	// return array(
+	// 	// 	'idDokter' => array(self::BELONGS_TO, 'TblPegawai', 'id_dokter'),
+	// 	// );
+	// }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
@@ -82,9 +80,6 @@ class Pasien extends CActiveRecord
 			'no_hp' => 'No Hp',
 			'alamat' => 'Alamat',
 			'kontak_lain' => 'Kontak Lain',
-			'poliklinik' => 'Poliklinik',
-			'id_dokter' => 'Id Dokter',
-			'jenis_layanan' => 'Jenis Layanan',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -117,9 +112,6 @@ class Pasien extends CActiveRecord
 		$criteria->compare('no_hp', $this->no_hp, true);
 		$criteria->compare('alamat', $this->alamat, true);
 		$criteria->compare('kontak_lain', $this->kontak_lain, true);
-		$criteria->compare('poliklinik', $this->poliklinik, true);
-		$criteria->compare('id_dokter', $this->id_dokter);
-		$criteria->compare('jenis_layanan', $this->jenis_layanan, true);
 		$criteria->compare('created_at', $this->created_at, true);
 		$criteria->compare('updated_at', $this->updated_at, true);
 

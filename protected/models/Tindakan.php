@@ -29,13 +29,13 @@ class Tindakan extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_pasien, harga', 'required'),
-			array('id_pasien', 'length', 'max'=>255),
-			array('harga', 'length', 'max'=>20),
-			array('layanan, created_at, updated_at', 'safe'),
+			array('harga', 'required'),
+			array('jenis_tindakan', 'length', 'max' => 255),
+			array('harga', 'length', 'max' => 20),
+			array('jeniis_tindakan, created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_tindakan, id_pasien, harga, layanan, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id_tindakan, harga, jenis_tindakan, created_at, updated_at', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -46,8 +46,7 @@ class Tindakan extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -57,9 +56,8 @@ class Tindakan extends CActiveRecord
 	{
 		return array(
 			'id_tindakan' => 'Id Tindakan',
-			'id_pasien' => 'Id Pasien',
+			'jenis_tindakan' => 'Tindakan',
 			'harga' => 'Harga',
-			'layanan' => 'Layanan',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -81,17 +79,16 @@ class Tindakan extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id_tindakan',$this->id_tindakan,true);
-		$criteria->compare('id_pasien',$this->id_pasien,true);
-		$criteria->compare('harga',$this->harga,true);
-		$criteria->compare('layanan',$this->layanan,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('id_tindakan', $this->id_tindakan, true);
+		$criteria->compare('harga', $this->harga, true);
+		$criteria->compare('jenis_tindakan', $this->jenis_tindakan, true);
+		$criteria->compare('created_at', $this->created_at, true);
+		$criteria->compare('updated_at', $this->updated_at, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -101,7 +98,7 @@ class Tindakan extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Tindakan the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}

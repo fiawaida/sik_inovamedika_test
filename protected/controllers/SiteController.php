@@ -29,6 +29,10 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+		// if (!Yii::app()->user->isGuest) {
+		// 	$this->redirect(array(""));
+		// }
+		// $this->redirect(array("site/login"));
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render('index');
@@ -78,27 +82,27 @@ class SiteController extends Controller
 	{
 		$model = new LoginForm;
 
-		// if it is ajax validation request
-		if (isset($_POST['ajax']) && $_POST['ajax'] === 'login-form') {
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-
 		// collect user input data
 		if (isset($_POST['LoginForm'])) {
 			$model->attributes = $_POST['LoginForm'];
 
+			$arr = $model['username'];
+			$json = json_encode($arr);
+
 			// validate user input and redirect to the previous page if valid
 			if ($model->validate() && $model->login()) {
-				if ($model->username == 'admin') {
-					$this->redirect(array('users/dashboard'));
-				} else if ($model->username == 'pendaftar') {
-					$this->redirect(array('pendaftar/index'));
-				}
-				// $this->redirect(Yii::app()->user->returnUrl);
+				// $data = Yii::app()->db->createCommand()->select('*')->from('tbl_users')->where('username=' . $json)->queryRow();
+				// if ($data["role"] == 'Admin') {
+				Yii::app()->user->setFlash('login', 'Login success');
+				$this->redirect(array("Dashboard/index"));
+				// } else if ($data["role"] == 'Perawat') {
+				// 	$this->redirect(array('/Pendaftaran'));
+				// } else if ($data["role"] == 'Dokter') {
+				// 	$this->redirect(array('index'));
+				// } else {
+				// 	Yii::app()->user->setFlash('login', 'Login failed');
+				// }
 			}
-			// display the login form
-
 		}
 		$this->render('login', array('model' => $model));
 	}

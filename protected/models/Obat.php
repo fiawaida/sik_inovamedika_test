@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'tbl_obat':
  * @property string $id_obat
  * @property string $name
- * @property string $harga
+ * @property string $harga_obat
  * @property string $description
  * @property string $created_at
  * @property string $updated_at
@@ -20,23 +20,19 @@ class Obat extends CActiveRecord
 	{
 		return 'tbl_obat';
 	}
-
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, harga', 'required'),
-			array('id_obat', 'length', 'max'=>10),
-			array('name', 'length', 'max'=>255),
-			array('harga', 'length', 'max'=>20),
+			array('id_obat, nama_obat, harga_obat', 'required'),
+			array('id_obat', 'length', 'max' => 10),
+			array('nama_obat,kategori, satuan', 'length', 'max' => 255),
+			array('harga_obat', 'length', 'max' => 20),
 			array('description, created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_obat, name, harga, description, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id_obat, nama_obat, harga_obat, description, created_at, updated_at', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -47,8 +43,7 @@ class Obat extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -58,8 +53,9 @@ class Obat extends CActiveRecord
 	{
 		return array(
 			'id_obat' => 'Id Obat',
-			'name' => 'Name',
-			'harga' => 'Harga',
+			'nama_obat' => 'Nama Obat',
+			'harga_obat' => 'harga_obat',
+			'satuan' => 'satuan',
 			'description' => 'Description',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
@@ -82,17 +78,18 @@ class Obat extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id_obat',$this->id_obat,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('harga',$this->harga,true);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('id_obat', $this->id_obat, true);
+		$criteria->compare('nama_obat', $this->nama_obat, true);
+		$criteria->compare('harga_obat', $this->harga_obat, true);
+		$criteria->compare('kategori', $this->description, true);
+		$criteria->compare('satuan', $this->descripsatuantion, true);
+		$criteria->compare('created_at', $this->created_at, true);
+		$criteria->compare('updated_at', $this->updated_at, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -102,7 +99,7 @@ class Obat extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Obat the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}

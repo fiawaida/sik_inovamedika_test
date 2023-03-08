@@ -15,7 +15,8 @@ return array(
 	// autoloading model and component classes
 	'import' => array(
 		'application.models.*',
-		'application.components.*',
+		'application.components.*'
+
 	),
 
 	'modules' => array(
@@ -82,4 +83,6 @@ return array(
 		// this is used in contact page
 		'adminEmail' => 'webmaster@example.com',
 	),
+	//set timezone
+	'timeZone' => 'Asia/Jakarta',
 );

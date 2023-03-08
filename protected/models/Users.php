@@ -18,32 +18,23 @@
  */
 class Users extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
 	public function tableName()
 	{
 		return 'tbl_users';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('username, password, id_pegawai', 'required'),
-			array('status', 'numerical', 'integerOnly'=>true),
-			array('username', 'length', 'max'=>255),
-			array('password, authKey, accessToken', 'length', 'max'=>50),
-			array('role, id_pegawai', 'length', 'max'=>10),
-			array('profile_photo_path', 'length', 'max'=>2048),
-			array('created_at, updated_at', 'safe'),
+			array('status', 'numerical', 'integerOnly' => true),
+			array('username', 'length', 'max' => 255),
+			array('password', 'length', 'max' => 50),
+			array('role, id_pegawai', 'length', 'max' => 10),
+			array('profile_photo_path', 'length', 'max' => 2048),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_user, username, password, authKey, accessToken, status, role, profile_photo_path, id_pegawai, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id_user, username, status, profile_photo_path, id_pegawai', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -54,8 +45,7 @@ class Users extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -67,12 +57,9 @@ class Users extends CActiveRecord
 			'id_user' => 'Id User',
 			'username' => 'Username',
 			'password' => 'Password',
-			'authKey' => 'Auth Key',
-			'accessToken' => 'Access Token',
 			'status' => 'Status',
-			'role' => 'Role',
 			'profile_photo_path' => 'Profile Photo Path',
-			'id_pegawai' => 'Id Pegawai',
+			'role' => 'Role',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -94,22 +81,19 @@ class Users extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id_user',$this->id_user,true);
-		$criteria->compare('username',$this->username,true);
-		$criteria->compare('password',$this->password,true);
-		$criteria->compare('authKey',$this->authKey,true);
-		$criteria->compare('accessToken',$this->accessToken,true);
-		$criteria->compare('status',$this->status);
-		$criteria->compare('role',$this->role,true);
-		$criteria->compare('profile_photo_path',$this->profile_photo_path,true);
-		$criteria->compare('id_pegawai',$this->id_pegawai,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('id_user', $this->id_user, true);
+		$criteria->compare('username', $this->username, true);
+		$criteria->compare('password', $this->password, true);
+		$criteria->compare('status', $this->status);
+		$criteria->compare('profile_photo_path', $this->profile_photo_path, true);
+		$criteria->compare('role', $this->role, true);
+		$criteria->compare('created_at', $this->created_at, true);
+		$criteria->compare('updated_at', $this->updated_at, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -119,7 +103,38 @@ class Users extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Users the static model class
 	 */
-	public static function model($className=__CLASS__)
+
+	public function validatePassword($password)
+	{
+		return $this->password === sha1($password);
+	}
+
+	// public function hashPassword($password)
+	// {
+	// 	return crypt($password, $this->generateSalt());
+	// }
+
+	// public function generateSalt($cost = 10)
+	// {
+	// 	if (!is_numeric($cost) || $cost < 4 || $cost > 31) {
+	// 		throw new CException('Cost parameter must be between 4 and 31.');
+	// 	}
+	// 	// Get some pseudo-random data from mt_rand().
+	// 	$rand = '';
+	// 	for ($i = 0; $i < 8; ++$i)
+	// 		$rand .= pack('S', mt_rand(0, 0xffff));
+	// 	// Add the microtime for a little more entropy.
+	// 	$rand .= microtime();
+	// 	// Mix the bits cryptographically.
+	// 	$rand = sha1($rand, true);
+	// 	// Form the prefix that specifies hash algorithm type and cost parameter.
+	// 	$salt = '$2a$' . str_pad((int)$cost, 2, '0', STR_PAD_RIGHT) . '$';
+	// 	// Append the random salt string in the required base64 format.
+	// 	$salt .= strtr(substr(base64_encode($rand), 0, 22), array('+' => '.'));
+	// 	return $salt;
+	// }
+
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}

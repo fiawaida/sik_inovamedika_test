@@ -27,13 +27,28 @@ class UsersController extends Controller
 				'users' => array('*'),
 			),
 			array(
-				'allow',  // allow all users to perform 'index' and 'view' actions
+				'deny',  // allow all users to perform 'index' and 'view' actions
 				'actions' => array('index', 'view'),
-				'users' => array('*'),
+				'users' => array('?'),
+			),
+			array(
+				'deny',  // allow all users to perform 'index' and 'view' actions
+				'actions' => array('DaftarPasien', 'view'),
+				'users' => array('?'),
+			),
+			array(
+				'deny',  // allow all users to perform 'index' and 'view' actions
+				'actions' => array('CetakPendaftar', 'view'),
+				'users' => array('?'),
 			),
 			array(
 				'allow',  // allow all users to perform 'index' and 'view' actions
 				'actions' => array('DPasien', 'view'),
+				'users' => array('*'),
+			),
+			array(
+				'allow',  // allow all users to perform 'index' and 'view' actions
+				'actions' => array('DaftarKasir', 'view'),
 				'users' => array('*'),
 			),
 			array(
@@ -52,6 +67,11 @@ class UsersController extends Controller
 				'users' => array('@'),
 			),
 			array(
+				'allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions' => array('InputPas', 'update'),
+				'users' => array('@'),
+			),
+			array(
 				'allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions' => array('admin', 'delete'),
 				'users' => array('admin'),
@@ -60,13 +80,15 @@ class UsersController extends Controller
 				'allow',  // deny all users
 				'users' => array('*'),
 			),
+			array(
+				'deny',  // allow all users to perform 'index' and 'view' actions
+				'actions' => array('DaftarBiaya', 'view'),
+				'users' => array('?'),
+			),
+
 		);
 	}
 
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
 	public function actionView($id)
 	{
 		$this->render('view', array(
@@ -74,33 +96,24 @@ class UsersController extends Controller
 		));
 	}
 
-	/**
-	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 */
 	public function actionCreate()
 	{
 		$model = new Users;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
 		if (isset($_POST['Users'])) {
 			$model->attributes = $_POST['Users'];
-			if ($model->save())
-				$this->redirect(array('view', 'id' => $model->id_user));
+			if ($model->save()) {
+				Yii::app()->getMessages('Data User Berhasil Ditambahkan');
+				return $this->redirect('index');
+			} else {
+				Yii::app()->getMessages('Data User Gagal Ditambahkan');
+			}
 		}
-
-		$this->render('create', array(
+		$this->render('inputUser', array(
 			'model' => $model,
 		));
 	}
 
-	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel($id);
@@ -119,11 +132,7 @@ class UsersController extends Controller
 		));
 	}
 
-	/**
-	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'admin' page.
-	 * @param integer $id the ID of the model to be deleted
-	 */
+
 	public function actionDelete($id)
 	{
 		$this->loadModel($id)->delete();
@@ -137,11 +146,6 @@ class UsersController extends Controller
 	{
 		$user = Users::model()->findAll();
 		$this->render('index', ['model' => $user]);
-		// $this->render('hello-world', ['model' => $user]);
-		// $dataProvider = new CActiveDataProvider('Users');
-		// $this->render('index', array(
-		// 	'dataProvider' => $dataProvider,
-		// ));
 	}
 
 	public function actionDashboard()
@@ -156,12 +160,59 @@ class UsersController extends Controller
 			'dataProvider' => $dataProvider,
 		));
 	}
+	public function actionInputPas()
+	{
+		$model = new Pasien;
 
+		if (isset($_POST['Pasien'])) {
+			$model->attributes = $_POST['Pasien'];
+			if ($model->save()) {
+				Yii::app()->user->setFlash('success', 'You have successfully added.');
+				return $this->redirect('DPasien');
+			} else {
+				Yii::app()->getMessages('Data User Gagal Ditambahkan');
+			}
+		}
+
+		$this->render('pendaftaran_pasien', array(
+			'model' => $model,
+		));
+	}
 	public function actionDPasien()
 	{
 		$pasien = Pasien::model()->findAll();
 		$this->render('dataPasien', ['pasien' => $pasien]);
 	}
+
+	public function actionDaftarPasien()
+	{
+		// $pegawai = Yii::app()->db->createCommand()->select('id_pegawai, nama_pegawai')->from('tbl_pegawai')->where('jabatan = "Dokter"')->queryAll();
+		// // $arr = $pegawai['id_pegawai'];
+		// $json = json_encode($pegawai);
+		// die(var_dump($json));
+		$model = new Riwayat;
+
+		if (isset($_POST['Riwayat'])) {
+			$model->attributes = $_POST['Riwayat'];
+			if ($model->save()) {
+				Yii::app()->user->setFlash('success', 'You have successfully added.');
+				return $this->redirect('CetakPendaftar/' . $model->id_riwayat);
+			} else {
+				Yii::app()->getMessages('Data User Gagal Ditambahkan');
+			}
+		}
+
+		$this->render('perawat/pendaftaran', array(
+			'model' => $model,
+		));
+	}
+
+	public function actionCetakPendaftar($id)
+	{
+		$pendaftar = Yii::app()->db->createCommand()->select('*')->from('tbl_riwayat')->RIGHTJOIN('tbl_pasien', 'tbl_riwayat.id_pasien = tbl_pasien.id_pasien')->where('id_riwayat=' . $id)->queryAll();
+		$this->render('perawat/CetakPendaftaran', ['model' => $pendaftar]);
+	}
+
 
 	public function actionDObat()
 	{
@@ -213,6 +264,44 @@ class UsersController extends Controller
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
+	}
+	public function actionDaftarBiaya($id)
+	{
+		$pendaftar = Yii::app()->db->createCommand()->select('*')->from('tbl_riwayat')->RIGHTJOIN('tbl_pasien', 'tbl_riwayat.id_pasien = tbl_pasien.id_pasien')->where('id_riwayat=' . $id)->queryAll();
+		$biaya = Yii::app()->db->createCommand()->SELECT('tbl_riwayat.id_riwayat, tbl_resep.id_obat, tbl_obat.nama_obat,tbl_resep.qty, tbl_obat.harga_obat')
+			->FROM('tbl_riwayat')
+			->JOIN('tbl_resep', 'tbl_resep.id_riwayat = tbl_riwayat.id_riwayat')
+			->JOIN('tbl_obat', 'tbl_resep.id_obat= tbl_obat.id_obat')
+			->WHERE('tbl_riwayat.id_riwayat=' . $id)->queryAll();
+
+		$arr_qty = array();
+		$arr_hargaobat = array();
+		$arr_totalObat = array();
+		foreach ($biaya as $g) {
+			array_push($arr_qty, $g['qty']);
+			array_push($arr_hargaobat, $g['harga_obat']);
+			array_push($arr_totalObat, ($g['harga_obat'] * $g['qty']));
+		}
+		$jumlahBiaya = array_sum($arr_totalObat);
+		// die(var_dump($jumlahBiaya));
+		$biayaKonsul = Yii::app()->db->createCommand()->SELECT('tbl_riwayat.id_riwayat, tbl_tindakan.jenis_tindakan, tbl_tindakan.harga')
+			->FROM('tbl_riwayat')
+			->JOIN('tbl_tindakan', 'tbl_riwayat.id_tindakan = tbl_tindakan.id_tindakan')
+			->WHERE('tbl_riwayat.id_riwayat=' . $id)->queryAll();
+
+
+		$this->render('perawat/Rincian', array(
+			'model' => $pendaftar,
+			'modal' => $biaya,
+			'modalKonsul' => $biayaKonsul,
+			'jml' => $jumlahBiaya
+		));
+	}
+
+	public function actionDaftarKasir()
+	{
+		$pasien = Yii::app()->db->createCommand()->select('*')->from('tbl_riwayat')->RIGHTJOIN('tbl_pasien', 'tbl_riwayat.id_pasien = tbl_pasien.id_pasien')->where('status_pendaftaran="selesai"')->queryAll();
+		$this->render('perawat/kasir', ['model' => $pasien]);
 	}
 
 	public function actionLogout()

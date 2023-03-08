@@ -12,28 +12,20 @@
  */
 class Wilayah extends CActiveRecord
 {
-	/**
-	 * @return string the associated database table name
-	 */
 	public function tableName()
 	{
 		return 'tbl_wilayah';
 	}
 
-	/**
-	 * @return array validation rules for model attributes.
-	 */
 	public function rules()
 	{
-		// NOTE: you should only define rules for those attributes that
-		// will receive user inputs.
 		return array(
 			array('kantor, wilayah', 'required'),
-			array('kantor', 'length', 'max'=>100),
+			array('kantor', 'length', 'max' => 100),
 			array('created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id_wilayah, kantor, wilayah, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id_wilayah, kantor, wilayah, created_at, updated_at', 'safe', 'on' => 'search'),
 		);
 	}
 
@@ -44,8 +36,7 @@ class Wilayah extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return array();
 	}
 
 	/**
@@ -78,16 +69,16 @@ class Wilayah extends CActiveRecord
 	{
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
-		$criteria->compare('id_wilayah',$this->id_wilayah,true);
-		$criteria->compare('kantor',$this->kantor,true);
-		$criteria->compare('wilayah',$this->wilayah,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('id_wilayah', $this->id_wilayah, true);
+		$criteria->compare('kantor', $this->kantor, true);
+		$criteria->compare('wilayah', $this->wilayah, true);
+		$criteria->compare('created_at', $this->created_at, true);
+		$criteria->compare('updated_at', $this->updated_at, true);
 
 		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
+			'criteria' => $criteria,
 		));
 	}
 
@@ -97,7 +88,7 @@ class Wilayah extends CActiveRecord
 	 * @param string $className active record class name.
 	 * @return Wilayah the static model class
 	 */
-	public static function model($className=__CLASS__)
+	public static function model($className = __CLASS__)
 	{
 		return parent::model($className);
 	}
